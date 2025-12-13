@@ -11,7 +11,8 @@ import {
   FileText,
   Download,
   ExternalLink,
-  ChevronRight
+  ChevronRight,
+  ChevronDown
 } from 'lucide-react'
 
 // Theme hook with localStorage persistence
@@ -101,8 +102,48 @@ function Navbar({ isDark, toggleTheme }) {
   )
 }
 
+// Scroll Arrow Component
+function ScrollArrow() {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      // Show arrow when near top (within first 80% of viewport), hide when scrolled down
+      setIsVisible(scrollY < windowHeight * 0.8);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToExperience = () => {
+    const experienceSection = document.getElementById('experience');
+    if (experienceSection) {
+      experienceSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  if (!isVisible) return null;
+
+  return (
+    <button
+      onClick={scrollToExperience}
+      className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40 group animate-bounce cursor-pointer"
+      aria-label="Scroll to experience section"
+    >
+      <div className="flex flex-col items-center gap-2 p-3 rounded-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm border border-zinc-200 dark:border-zinc-700 shadow-lg hover:shadow-xl transition-all hover:scale-110 cursor-pointer">
+        <ChevronDown size={24} className="text-zinc-600 dark:text-zinc-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
+      </div>
+    </button>
+  );
+}
+
 // Hero Section
-function Hero() {
+function Hero({ isDark }) {
   const links = [
     { icon: Github, href: 'https://github.com/Ca1ebK', label: 'GitHub', handle: 'Ca1ebK' },
     { icon: Linkedin, href: 'https://linkedin.com/in/calebjkang', label: 'LinkedIn', handle: 'calebjkang' },
@@ -110,10 +151,10 @@ function Hero() {
   ]
 
   return (
-    <section className="min-h-screen flex items-center pt-20 pb-16 px-6">
+    <section className="min-h-screen flex items-center pt-20 pb-16 px-6 relative">
       <div className="max-w-4xl mx-auto w-full">
         {/* Terminal window */}
-        <div className="card-hover bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-black/50">
+        <div className="card-hover bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-black/50 overflow-hidden">
           {/* Window header */}
           <div className="flex items-center gap-2 px-4 py-3 bg-zinc-100 dark:bg-zinc-800/50 border-b border-zinc-200 dark:border-zinc-700">
             <div className="group/btn relative w-3.5 h-3.5 rounded-full bg-red-500 hover:bg-red-600 transition-colors flex items-center justify-center cursor-default select-none">
@@ -130,39 +171,66 @@ function Hero() {
           
           {/* Terminal content */}
           <div className="p-6 md:p-8 font-mono">
-            <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm mb-4">
-              <span className="text-emerald-500">❯</span> whoami
-            </div>
-            
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white mb-4 font-sans tracking-tight">
-              Caleb Kang
-            </h1>
-            
-            <div className="space-y-2 mb-6">
-              <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-300">
-                CS @ <span className="text-emerald-600 dark:text-emerald-400 font-semibold">UIUC Grainger</span> (Engineering Pathways)
-              </p>
-              <p className="text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
-                <MapPin size={16} />
-                <span>Palatine, IL</span>
-                <span className="text-zinc-300 dark:text-zinc-600">•</span>
-                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-medium">
-                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                  ex-Fermilab
-                </span>
-              </p>
+            <div className="flex items-start gap-6 mb-6">
+              {/* Profile Photo */}
+              <div className="flex-shrink-0">
+                <div className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden border-2 border-emerald-500/30 dark:border-emerald-400/30 bg-gradient-to-br from-emerald-100 to-blue-100 dark:from-emerald-900/30 dark:to-blue-900/30 flex items-center justify-center relative">
+                  <img 
+                    src="/IMG_3949.jpg" 
+                    alt="Caleb Kang" 
+                    className="w-full h-full object-cover absolute inset-0"
+                    onError={(e) => {
+                      // Fallback to initials if image doesn't load
+                      e.target.style.display = 'none';
+                      const fallback = e.target.parentElement.querySelector('.photo-fallback');
+                      if (fallback) fallback.style.display = 'flex';
+                    }}
+                  />
+                  <span className="text-5xl md:text-6xl lg:text-7xl font-bold text-emerald-600 dark:text-emerald-400 photo-fallback hidden absolute inset-0 items-center justify-center">CK</span>
+                </div>
+              </div>
+              
+              <div className="flex-1">
+                <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm mb-4">
+                  <span className="text-emerald-500">❯</span> whoami
+                </div>
+                
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white mb-4 font-sans tracking-tight">
+                  Caleb Kang
+                </h1>
+                
+                <div className="space-y-2 mb-6">
+                  <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-300">
+                    Computer Science @ <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Illinois</span> <span className="text-zinc-500 dark:text-zinc-400">(</span><a href="#pathways" className="text-emerald-600 dark:text-emerald-400 hover:underline">Engineering Pathways</a><span className="text-zinc-500 dark:text-zinc-400">)</span>
+                  </p>
+                  <p className="text-zinc-500 dark:text-zinc-400 flex items-center gap-2 flex-wrap">
+                    <MapPin size={16} />
+                    <span>Greater Chicago Area</span>
+                    <span className="text-zinc-300 dark:text-zinc-600">•</span>
+                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-medium">
+                      <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
+                      Incoming @ Northrop Grumman
+                    </span>
+                    <span className="text-zinc-300 dark:text-zinc-600">•</span>
+                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-medium">
+                      <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                      ex-Fermilab
+                    </span>
+                  </p>
+                </div>
+              </div>
             </div>
 
             <p className="text-zinc-600 dark:text-zinc-400 mb-8 max-w-xl leading-relaxed">
               Building things at the intersection of <span className="text-zinc-800 dark:text-zinc-200 font-medium">scalable systems</span>, <span className="text-zinc-800 dark:text-zinc-200 font-medium">AI/ML</span>, and <span className="text-zinc-800 dark:text-zinc-200 font-medium">robotics</span>. 
-              Passionate about creating software that makes a difference.
+              Passionate about using software and AI to solve tangible problems.
             </p>
 
             {/* Social links as terminal output */}
             <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm mb-3">
               <span className="text-emerald-500">❯</span> cat socials.txt
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 mb-4">
               {links.map(({ icon: Icon, href, label, handle }) => (
                 <a
                   key={label}
@@ -198,19 +266,26 @@ function useScrollProgress() {
       const elementHeight = rect.height
       const windowHeight = window.innerHeight
       
-      // Start point: when top of element reaches 60% down from top of viewport
-      const triggerPoint = windowHeight * 0.6
+      // Start point: trigger much earlier - when element is still well below viewport
+      // Trigger when element top is 500px below viewport top (very early trigger)
+      const earlyTriggerOffset = 700
+      const triggerPoint = earlyTriggerOffset
       
-      // Don't start until the element's TOP reaches the trigger point
-      if (rect.top > triggerPoint) {
+      // Get element position
+      const elementTop = rect.top
+      const elementBottom = rect.bottom
+      
+      // Start animating when element top reaches trigger point (still below viewport)
+      if (elementTop > triggerPoint) {
         setProgress(0)
         return
       }
       
-      // Calculate progress based on how much of the element has passed the trigger point
-      // Progress goes from 0 to 100 as we scroll through the element
-      const distanceScrolled = triggerPoint - rect.top
-      const newProgress = Math.min(100, Math.max(0, (distanceScrolled / elementHeight) * 100))
+      // Calculate progress: how much of element has scrolled past trigger point
+      // Use a much smaller effective height to make items appear very quickly
+      const effectiveHeight = elementHeight * 0.15 // Very small multiplier for fast appearance
+      const distanceScrolled = triggerPoint - elementTop
+      const newProgress = Math.min(100, Math.max(0, (distanceScrolled / effectiveHeight) * 100))
       
       setProgress(newProgress)
       if (newProgress >= 100) setIsComplete(true)
@@ -228,7 +303,7 @@ function useScrollProgress() {
 // Experience Item with scroll-fill animation
 function ExperienceItem({ id, title, company, location, date, bullets, isRemote, isLast }) {
   const [ref, progress, isComplete] = useScrollProgress()
-  const isActive = progress > 10
+  const isActive = progress > 5 // Lower threshold so items activate sooner
 
   return (
     <div 
@@ -299,6 +374,16 @@ function ExperienceItem({ id, title, company, location, date, bullets, isRemote,
 function Experience() {
   const experiences = [
     {
+      id: 'exp-northrop',
+      title: 'Incoming Software Engineer',
+      company: 'Northrop Grumman',
+      location: 'Rolling Meadows, IL',
+      date: 'Summer 2026',
+      bullets: [
+        'Mission Systems Sector, Targeting & Survivability (T&S) Division',
+      ],
+    },
+    {
       id: 'exp-fermilab',
       title: 'Software Development Intern',
       company: 'Fermi National Accelerator Laboratory',
@@ -324,7 +409,7 @@ function Experience() {
   ]
 
   return (
-    <section id="experience" className="py-20 px-6">
+    <section id="experience" className="py-20 px-6 pt-32">
       <div className="max-w-4xl mx-auto">
         <CommandHeader command="ls -la ./experience" />
         <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-8">
@@ -343,7 +428,7 @@ function Experience() {
 // Research Section
 function Research() {
   return (
-    <section id="research" className="py-20 px-6 bg-zinc-50/50 dark:bg-zinc-900/30">
+    <section id="research" className="py-20 px-6 bg-zinc-50/50 dark:bg-zinc-900/30 pt-24">
       <div className="max-w-4xl mx-auto">
         <CommandHeader command="cat research.md" />
         <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-8">
@@ -458,7 +543,7 @@ function Skills() {
   }
 
   return (
-    <section id="skills" className="py-20 px-6 bg-zinc-50/50 dark:bg-zinc-900/30">
+    <section id="skills" className="py-20 px-6 bg-zinc-50/50 dark:bg-zinc-900/30 pt-28">
       <div className="max-w-4xl mx-auto">
         <CommandHeader command="echo $SKILLS" />
         <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-8">
@@ -538,6 +623,41 @@ function Footer() {
   )
 }
 
+// Engineering Pathways Section
+function EngineeringPathways() {
+  return (
+    <section id="pathways" className="py-20 px-6">
+      <div className="max-w-4xl mx-auto">
+        <CommandHeader command="cat pathways.md" />
+        <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-6">
+          Engineering Pathways
+        </h2>
+        <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 p-6 md:p-8">
+          <p className="text-zinc-600 dark:text-zinc-400 mb-4 leading-relaxed">
+            <a 
+              href="https://grainger.illinois.edu/admissions/undergraduate/pathways" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-emerald-600 dark:text-emerald-400 hover:underline font-medium"
+            >
+              Engineering Pathways
+            </a> offers students interested in beginning their college education at an Illinois community college a <strong className="text-zinc-800 dark:text-zinc-200">streamlined transfer experience and guaranteed admission</strong> to The Grainger College of Engineering at the University of Illinois Urbana-Champaign upon successful completion of program requirements.
+          </p>
+          <a 
+            href="https://grainger.illinois.edu/admissions/undergraduate/pathways" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-medium transition-colors"
+          >
+            Learn more about Engineering Pathways
+            <ExternalLink size={16} />
+          </a>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // Main App
 function App() {
   const [isDark, toggleTheme] = useTheme()
@@ -552,11 +672,13 @@ function App() {
       
       <Navbar isDark={isDark} toggleTheme={toggleTheme} />
       <main className="relative">
-        <Hero />
+        <Hero isDark={isDark} />
+        <ScrollArrow />
         <Experience />
         <Research />
         <Projects />
         <Skills />
+        <EngineeringPathways />
         <Resume />
       </main>
       <Footer />
