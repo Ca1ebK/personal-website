@@ -670,11 +670,11 @@ function App() {
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-30 dark:opacity-20"
+          className="absolute inset-0 w-full h-full object-cover opacity-0 dark:opacity-50"
         >
           <source src="/3129957-uhd_3840_2160_25fps.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-slate-50/50 dark:bg-zinc-950/70" />
+        <div className="absolute inset-0 bg-slate-50/50 dark:bg-zinc-950/60" />
       </div>
       
       <Navbar isDark={isDark} toggleTheme={toggleTheme} />
