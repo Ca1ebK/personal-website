@@ -145,7 +145,7 @@ function ScrollArrow() {
 }
 
 // Hero Section
-function Hero({ isDark }) {
+function Hero() {
   const links = [
     { icon: Github, href: 'https://github.com/Ca1ebK', label: 'GitHub', handle: 'Ca1ebK' },
     { icon: Linkedin, href: 'https://linkedin.com/in/calebjkang', label: 'LinkedIn', handle: 'calebjkang' },
@@ -265,7 +265,6 @@ function useScrollProgress() {
       
       const rect = ref.current.getBoundingClientRect()
       const elementHeight = rect.height
-      const windowHeight = window.innerHeight
       
       // Start point: trigger much earlier - when element is still well below viewport
       // Trigger when element top is 500px below viewport top (very early trigger)
@@ -274,7 +273,6 @@ function useScrollProgress() {
       
       // Get element position
       const elementTop = rect.top
-      const elementBottom = rect.bottom
       
       // Start animating when element top reaches trigger point (still below viewport)
       if (elementTop > triggerPoint) {
@@ -682,7 +680,7 @@ function App() {
       
       <Navbar isDark={isDark} toggleTheme={toggleTheme} />
       <main className="relative z-10">
-        <Hero isDark={isDark} />
+        <Hero />
         <ScrollArrow />
         <Experience />
         <Research />
