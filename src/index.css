@@ -80,17 +80,15 @@ body {
   outline-offset: 2px;
 }
 
-/* Enhanced gradient background - smooth bubble-like animation */
 .gradient-bg {
   position: fixed;
   inset: 0;
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  will-change: transform;
 }
 
-/* Main gradient orbs - smooth bubble animation */
+/* Main gradient orbs */
 .gradient-bg::before {
   content: '';
   position: absolute;
@@ -99,9 +97,8 @@ body {
   width: 50%;
   height: 50%;
   background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, transparent 70%);
-  filter: blur(100px);
-  animation: bubble-float-1 20s ease-in-out infinite;
-  will-change: transform;
+  filter: blur(80px);
+  animation: float-1 15s ease-in-out infinite;
 }
 
 .gradient-bg::after {
@@ -112,9 +109,8 @@ body {
   width: 60%;
   height: 60%;
   background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
-  filter: blur(120px);
-  animation: bubble-float-2 25s ease-in-out infinite;
-  will-change: transform;
+  filter: blur(100px);
+  animation: float-2 18s ease-in-out infinite;
 }
 
 /* Additional gradient orbs via extra element */
@@ -125,11 +121,10 @@ body {
   width: 40%;
   height: 40%;
   background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
-  filter: blur(110px);
+  filter: blur(90px);
   z-index: 0;
   pointer-events: none;
-  animation: bubble-float-3 22s ease-in-out infinite;
-  will-change: transform;
+  animation: float-3 20s ease-in-out infinite;
 }
 
 .gradient-orb-2 {
@@ -139,11 +134,10 @@ body {
   width: 35%;
   height: 35%;
   background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 70%);
-  filter: blur(90px);
+  filter: blur(70px);
   z-index: 0;
   pointer-events: none;
-  animation: bubble-float-4 18s ease-in-out infinite;
-  will-change: transform;
+  animation: float-4 22s ease-in-out infinite;
 }
 
 /* Light mode gradients - softer */
@@ -163,72 +157,46 @@ body {
   background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
 }
 
-/* Smooth bubble-like floating animations - optimized for 60fps */
-@keyframes bubble-float-1 {
+/* Floating animations for gradient orbs */
+@keyframes float-1 {
   0%, 100% {
     transform: translate(0, 0) scale(1);
-    opacity: 0.8;
-  }
-  25% {
-    transform: translate(8%, 12%) scale(1.08);
-    opacity: 0.9;
-  }
-  50% {
-    transform: translate(-6%, 8%) scale(0.96);
-    opacity: 0.85;
-  }
-  75% {
-    transform: translate(4%, -5%) scale(1.04);
-    opacity: 0.9;
-  }
-}
-
-@keyframes bubble-float-2 {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.75;
-  }
-  25% {
-    transform: translate(-10%, -8%) scale(1.12);
-    opacity: 0.85;
-  }
-  50% {
-    transform: translate(7%, -12%) scale(0.92);
-    opacity: 0.8;
-  }
-  75% {
-    transform: translate(-5%, 6%) scale(1.06);
-    opacity: 0.85;
-  }
-}
-
-@keyframes bubble-float-3 {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.7;
   }
   33% {
-    transform: translate(-12%, 14%) scale(1.16);
-    opacity: 0.85;
+    transform: translate(5%, 10%) scale(1.05);
   }
   66% {
-    transform: translate(8%, -8%) scale(0.94);
-    opacity: 0.75;
+    transform: translate(-5%, 5%) scale(0.95);
   }
 }
 
-@keyframes bubble-float-4 {
+@keyframes float-2 {
   0%, 100% {
     transform: translate(0, 0) scale(1);
-    opacity: 0.65;
   }
   33% {
-    transform: translate(16%, -6%) scale(1.1);
-    opacity: 0.8;
+    transform: translate(-8%, -5%) scale(1.1);
   }
   66% {
-    transform: translate(-10%, 10%) scale(0.95);
-    opacity: 0.7;
+    transform: translate(5%, -10%) scale(0.9);
+  }
+}
+
+@keyframes float-3 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-10%, 10%) scale(1.15);
+  }
+}
+
+@keyframes float-4 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(15%, -5%) scale(1.1);
   }
 }
 
@@ -259,8 +227,6 @@ body {
 /* Card hover effects */
 .card-hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  position: relative;
-  isolation: isolate;
 }
 
 .card-hover:hover {
@@ -270,20 +236,6 @@ body {
 
 .dark .card-hover:hover {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-}
-
-/* Smooth scroll arrow animation */
-.animate-bounce {
-  animation: bounce 2s ease-in-out infinite;
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
 }
 
 /* Button hover effects */
