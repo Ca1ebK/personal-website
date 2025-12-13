@@ -127,15 +127,15 @@ function ScrollArrow() {
     }
   };
 
-  if (!isVisible) return null;
-
   return (
     <button
       onClick={scrollToExperience}
-      className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40 group animate-bounce cursor-pointer"
+      className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40 group cursor-pointer transition-opacity duration-500 ${
+        isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      }`}
       aria-label="Scroll to experience section"
     >
-      <div className="flex flex-col items-center gap-2 p-3 rounded-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm border border-zinc-200 dark:border-zinc-700 shadow-lg hover:shadow-xl transition-all hover:scale-110 cursor-pointer">
+      <div className="flex flex-col items-center gap-2 p-3 rounded-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm border border-zinc-200 dark:border-zinc-700 shadow-lg hover:shadow-xl transition-all hover:scale-110 cursor-pointer animate-bounce">
         <ChevronDown size={24} className="text-zinc-600 dark:text-zinc-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
       </div>
     </button>
@@ -211,7 +211,6 @@ function Hero({ isDark }) {
                       <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
                       Incoming @ Northrop Grumman
                     </span>
-                    <span className="text-zinc-300 dark:text-zinc-600">•</span>
                     <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-medium">
                       <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
                       ex-Fermilab
@@ -664,11 +663,19 @@ function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 text-zinc-900 dark:text-white transition-colors duration-300">
-      {/* Gradient background with orbs */}
-      <div className="gradient-bg" />
-      <div className="gradient-orb-1" />
-      <div className="gradient-orb-2" />
-      <div className="noise-overlay" />
+      {/* Video background */}
+      <div className="fixed inset-0 z-0 overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-30 dark:opacity-20"
+        >
+          <source src="/3129957-uhd_3840_2160_25fps.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-slate-50/50 dark:bg-zinc-950/70" />
+      </div>
       
       <Navbar isDark={isDark} toggleTheme={toggleTheme} />
       <main className="relative">
