@@ -14,6 +14,8 @@ import {
   ChevronRight,
   ChevronDown
 } from 'lucide-react'
+import ParticleBackground from './ParticleBackground'
+import LightModeBackground from './LightModeBackground'
 
 // Theme hook with localStorage persistence
 function useTheme() {
@@ -220,7 +222,7 @@ function Hero({ isDark }) {
               </div>
             </div>
 
-            <p className="text-zinc-600 dark:text-zinc-400 mb-8 max-w-xl leading-relaxed">
+            <p className="text-zinc-600 dark:text-zinc-400 mb-8 leading-relaxed">
               Building things at the intersection of <span className="text-zinc-800 dark:text-zinc-200 font-medium">scalable systems</span>, <span className="text-zinc-800 dark:text-zinc-200 font-medium">AI/ML</span>, and <span className="text-zinc-800 dark:text-zinc-200 font-medium">robotics</span>. 
               Passionate about using software and AI to solve tangible problems.
             </p>
@@ -408,16 +410,18 @@ function Experience() {
   ]
 
   return (
-    <section id="experience" className="py-20 px-6 pt-32">
+    <section id="experience" className="py-4 px-6 pt-32">
       <div className="max-w-4xl mx-auto">
-        <CommandHeader command="ls -la ./experience" />
-        <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-8">
-          Experience
-        </h2>
-        <div className="space-y-0">
-          {experiences.map((exp, idx) => (
-            <ExperienceItem key={exp.company} {...exp} isLast={idx === experiences.length - 1} />
-          ))}
+        <div className="card-hover bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-lg p-6 md:p-8 mb-8">
+          <CommandHeader command="ls -la ./experience" />
+          <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-8">
+            Experience
+          </h2>
+          <div className="space-y-0">
+            {experiences.map((exp, idx) => (
+              <ExperienceItem key={exp.company} {...exp} isLast={idx === experiences.length - 1} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -427,25 +431,27 @@ function Experience() {
 // Research Section
 function Research() {
   return (
-    <section id="research" className="py-20 px-6 bg-zinc-50/50 dark:bg-zinc-900/30 pt-24">
+    <section id="research" className="py-4 px-6">
       <div className="max-w-4xl mx-auto">
-        <CommandHeader command="cat research.md" />
-        <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-8">
-          Research
-        </h2>
-        <ExperienceItem
-          id="research-biola"
-          title="Research Assistant"
-          company="Biola University"
-          location="Remote"
-          date="Oct 2024 – May 2025"
-          isRemote={true}
-          isLast={true}
-          bullets={[
-            'Validated multimodal authentication models: fine-tuned CLIP, Whisper, and Sortformer architectures',
-            'Executed NVIDIA NeMo performance testing in Google Colab using PyTorch for security applications',
-          ]}
-        />
+        <div className="card-hover bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-lg p-6 md:p-8 mb-8">
+          <CommandHeader command="cat research.md" />
+          <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-8">
+            Research
+          </h2>
+          <ExperienceItem
+            id="research-biola"
+            title="Research Assistant"
+            company="Biola University"
+            location="Remote"
+            date="Oct 2024 – May 2025"
+            isRemote={true}
+            isLast={true}
+            bullets={[
+              'Validated multimodal authentication models: fine-tuned CLIP, Whisper, and Sortformer architectures',
+              'Executed NVIDIA NeMo performance testing in Google Colab using PyTorch for security applications',
+            ]}
+          />
+        </div>
       </div>
     </section>
   )
@@ -517,16 +523,18 @@ function Projects() {
   ]
 
   return (
-    <section id="projects" className="py-20 px-6">
+    <section id="projects" className="py-4 px-6">
       <div className="max-w-4xl mx-auto">
-        <CommandHeader command="find ./projects -type f" />
-        <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-8">
-          Projects
-        </h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          {projects.map((project) => (
-            <ProjectCard key={project.title} {...project} />
-          ))}
+        <div className="card-hover bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-lg p-6 md:p-8 mb-8">
+          <CommandHeader command="find ./projects -type f" />
+          <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-8">
+            Projects
+          </h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {projects.map((project) => (
+              <ProjectCard key={project.title} {...project} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -542,30 +550,32 @@ function Skills() {
   }
 
   return (
-    <section id="skills" className="py-20 px-6 bg-zinc-50/50 dark:bg-zinc-900/30 pt-28">
+    <section id="skills" className="py-4 px-6">
       <div className="max-w-4xl mx-auto">
-        <CommandHeader command="echo $SKILLS" />
-        <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-8">
-          Skills
-        </h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {Object.entries(skills).map(([category, items]) => (
-            <div key={category}>
-              <h3 className="text-sm font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-4">
-                {category}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {items.map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-3 py-1.5 text-sm rounded-lg bg-white/80 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-default"
-                  >
-                    {skill}
-                  </span>
-                ))}
+        <div className="card-hover bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-lg p-6 md:p-8 mb-8">
+          <CommandHeader command="echo $SKILLS" />
+          <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-8">
+            Skills
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {Object.entries(skills).map(([category, items]) => (
+              <div key={category}>
+                <h3 className="text-sm font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-4">
+                  {category}
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {items.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1.5 text-sm rounded-lg bg-white/80 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-default"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -575,29 +585,31 @@ function Skills() {
 // Resume Section
 function Resume() {
   return (
-    <section id="resume" className="py-20 px-6">
+    <section id="resume" className="py-4 px-6">
       <div className="max-w-4xl mx-auto">
-        <CommandHeader command="open resume.pdf" />
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white">
-            Resume
-          </h2>
-          <a
-            href="/Kang_Caleb_Resume.pdf"
-            download
-            className="btn-hover flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm transition-colors"
-          >
-            <Download size={16} />
-            Download PDF
-          </a>
-        </div>
-        
-        <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
-          <iframe
-            src="/Kang_Caleb_Resume.pdf"
-            title="Caleb Kang Resume"
-            className="w-full h-[600px] md:h-[800px]"
-          />
+        <div className="card-hover bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-lg p-6 md:p-8 mb-8">
+          <CommandHeader command="open resume.pdf" />
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white">
+              Resume
+            </h2>
+            <a
+              href="/Kang_Caleb_Resume.pdf"
+              download
+              className="btn-hover flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm transition-colors"
+            >
+              <Download size={16} />
+              Download PDF
+            </a>
+          </div>
+          
+          <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+            <iframe
+              src="/Kang_Caleb_Resume.pdf"
+              title="Caleb Kang Resume"
+              className="w-full h-[600px] md:h-[800px]"
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -607,15 +619,17 @@ function Resume() {
 // Footer
 function Footer() {
   return (
-    <footer className="py-8 px-6 border-t border-zinc-200 dark:border-zinc-800">
+    <footer className="py-4 px-6">
       <div className="max-w-4xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm font-mono text-zinc-500 dark:text-zinc-400">
-            <span className="text-emerald-500">❯</span> echo "© {new Date().getFullYear()} Caleb Kang"
-          </p>
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            Built with React + Tailwind CSS
-          </p>
+        <div className="card-hover bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-lg p-6 mb-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-sm font-mono text-zinc-500 dark:text-zinc-400">
+              <span className="text-emerald-500">❯</span> echo "© {new Date().getFullYear()} Caleb Kang"
+            </p>
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              Built with React + Tailwind CSS
+            </p>
+          </div>
         </div>
       </div>
     </footer>
@@ -625,13 +639,13 @@ function Footer() {
 // Engineering Pathways Section
 function EngineeringPathways() {
   return (
-    <section id="pathways" className="py-20 px-6">
+    <section id="pathways" className="py-4 px-6">
       <div className="max-w-4xl mx-auto">
-        <CommandHeader command="cat pathways.md" />
-        <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-6">
-          Engineering Pathways
-        </h2>
-        <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 p-6 md:p-8">
+        <div className="card-hover bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-lg p-6 md:p-8 mb-8">
+          <CommandHeader command="cat pathways.md" />
+          <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-6">
+            Engineering Pathways
+          </h2>
           <p className="text-zinc-600 dark:text-zinc-400 mb-4 leading-relaxed">
             <a 
               href="https://grainger.illinois.edu/admissions/undergraduate/pathways" 
@@ -662,23 +676,12 @@ function App() {
   const [isDark, toggleTheme] = useTheme()
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 text-zinc-900 dark:text-white transition-colors duration-300">
-      {/* Video background */}
-      <div className="fixed inset-0 z-0 overflow-hidden">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-0 dark:opacity-50"
-        >
-          <source src="/3129957-uhd_3840_2160_25fps.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-slate-50/50 dark:bg-zinc-950/60" />
-      </div>
+    <div className="min-h-screen text-zinc-900 dark:text-white transition-colors duration-300">
+      {/* Animated background - different for light/dark mode */}
+      {isDark ? <ParticleBackground /> : <LightModeBackground />}
       
       <Navbar isDark={isDark} toggleTheme={toggleTheme} />
-      <main className="relative">
+      <main className="relative z-10">
         <Hero isDark={isDark} />
         <ScrollArrow />
         <Experience />
