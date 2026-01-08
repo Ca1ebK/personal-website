@@ -13,13 +13,13 @@ const baseSpeed = 0.1
 const rangeSpeed = 2
 const baseRadius = 1
 const rangeRadius = 4
-const baseHue = 140
-const rangeHue = 80
+const baseHue = 20 // Illini orange base
+const rangeHue = 220 // Wide range to include blue
 const noiseSteps = 8
 const xOff = 0.00125
 const yOff = 0.00125
 const zOff = 0.0005
-const backgroundColor = 'hsla(0,0%,98%,1)'
+const backgroundColor = 'hsla(30,20%,97%,1)' // Warm off-white with subtle orange tint
 
 // Helper functions
 function rand(max) {
@@ -155,7 +155,13 @@ export default function LightModeBackground() {
       ctx.a.save()
       ctx.a.lineCap = 'round'
       ctx.a.lineWidth = radius
-      ctx.a.strokeStyle = `hsla(${hue},80%,45%,${fadeInOut(life, ttl)})`
+      // Illini themed: map to orange or blue
+      const normalizedHue = ((hue % 360) + 360) % 360
+      const isOrange = normalizedHue < 120 || normalizedHue > 300
+      const finalHue = isOrange ? 20 : 220
+      const saturation = isOrange ? 90 : 70
+      const lightness = isOrange ? 55 : 40
+      ctx.a.strokeStyle = `hsla(${finalHue},${saturation}%,${lightness}%,${fadeInOut(life, ttl)})`
       ctx.a.beginPath()
       ctx.a.moveTo(x, y)
       ctx.a.lineTo(x2, y2)

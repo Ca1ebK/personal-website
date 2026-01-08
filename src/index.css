@@ -12,6 +12,7 @@
 html {
   scroll-behavior: smooth;
   background-color: #09090b;
+  transition: background-color 0.6s ease;
 }
 
 html.light {
@@ -20,16 +21,28 @@ html.light {
 
 body {
   background-color: inherit;
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='14' cy='14' r='6' fill='%23fff' fill-opacity='0.7' stroke='%23000' stroke-width='1' stroke-opacity='0.5'/%3E%3C/svg%3E") 14 14, default;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Ccircle cx='18' cy='18' r='10' fill='%23fff' fill-opacity='0.7' stroke='%23000' stroke-width='1' stroke-opacity='0.5'/%3E%3C/svg%3E") 18 18, default;
+  transition: background-color 0.6s ease;
 }
 
 html.light body {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='14' cy='14' r='6' fill='%23000' fill-opacity='0.7' stroke='%23fff' stroke-width='1' stroke-opacity='0.5'/%3E%3C/svg%3E") 14 14, default;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Ccircle cx='18' cy='18' r='10' fill='%23000' fill-opacity='0.7' stroke='%23fff' stroke-width='1' stroke-opacity='0.5'/%3E%3C/svg%3E") 18 18, default;
+}
+
+/* Smooth theme transitions for all elements */
+*,
+*::before,
+*::after {
+  transition: background-color 0.6s ease, 
+              border-color 0.6s ease, 
+              color 0.6s ease,
+              box-shadow 0.6s ease,
+              opacity 0.6s ease;
 }
 
 /* Custom selection */
 ::selection {
-  background-color: #10b981;
+  background-color: #f97316;
   color: white;
 }
 
@@ -81,7 +94,7 @@ html.light body {
 
 /* Focus styles */
 *:focus-visible {
-  outline: 2px solid #10b981;
+  outline: 2px solid #f97316;
   outline-offset: 2px;
 }
 
@@ -250,5 +263,34 @@ html.light body {
 
 .btn-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25);
+}
+
+/* Illini gradient text animation */
+@keyframes illini-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: -200% 50%;
+  }
+}
+
+.illini-gradient {
+  background: linear-gradient(
+    90deg,
+    #FF5F05 0%,
+    #FF8844 15%,
+    #13294B 35%,
+    #2952a3 50%,
+    #13294B 65%,
+    #FF8844 85%,
+    #FF5F05 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: illini-flow 3s linear infinite;
+  font-weight: 600;
 }

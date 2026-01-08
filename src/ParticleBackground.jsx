@@ -13,11 +13,11 @@ const baseTTL = 150
 const rangeTTL = 200
 const baseRadius = 100
 const rangeRadius = 200
-const rangeHue = 60
+const rangeHue = 40
 const xOff = 0.0015
 const yOff = 0.0015
 const zOff = 0.0015
-const backgroundColor = 'hsla(0,0%,5%,1)'
+const backgroundColor = 'hsla(220,60%,8%,1)' // Deep Illini blue-black
 
 // Helper functions
 function rand(max) {
@@ -43,7 +43,7 @@ export default function ParticleBackground() {
   const ctxRef = useRef({ a: null, b: null })
   const circlePropsRef = useRef(null)
   const simplexRef = useRef(null)
-  const baseHueRef = useRef(220)
+  const baseHueRef = useRef(20) // Start at Illini orange hue
   const animationFrameRef = useRef(null)
   const lastFrameTimeRef = useRef(0)
 
@@ -137,10 +137,15 @@ export default function ParticleBackground() {
 
     function drawCircle(x, y, life, ttl, radius, hue) {
       ctx.a.save()
-      // DULLER: reduced saturation from 60% to 35%, reduced lightness from 30% to 22%
-      // Also reduced alpha by multiplying fadeInOut by 0.6
+      // Illini themed: alternate between orange and blue based on hue
       const fade = fadeInOut(life, ttl) * 0.6
-      ctx.a.fillStyle = `hsla(${hue},35%,22%,${fade})`
+      // Map hue to either Illini orange (~20) or Illini blue (~220)
+      const normalizedHue = ((hue % 360) + 360) % 360
+      const isOrange = normalizedHue < 180
+      const finalHue = isOrange ? 20 : 220
+      const saturation = isOrange ? 100 : 60
+      const lightness = isOrange ? 35 : 25
+      ctx.a.fillStyle = `hsla(${finalHue},${saturation}%,${lightness}%,${fade})`
       ctx.a.beginPath()
       ctx.a.arc(x, y, radius, 0, TAU)
       ctx.a.fill()

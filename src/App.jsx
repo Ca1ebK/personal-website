@@ -54,9 +54,9 @@ function useTheme() {
 function CommandHeader({ command, className = '' }) {
   return (
     <div className={`flex items-center gap-2 mb-6 ${className}`}>
-      <span className="text-emerald-500 dark:text-emerald-400 font-mono text-sm">❯</span>
+      <span className="text-orange-500 dark:text-orange-400 font-mono text-sm">❯</span>
       <span className="font-mono text-zinc-600 dark:text-zinc-400 text-sm">{command}</span>
-      <span className="animate-pulse text-emerald-500 dark:text-emerald-400 font-mono">_</span>
+      <span className="animate-pulse text-orange-500 dark:text-orange-400 font-mono">_</span>
     </div>
   )
 }
@@ -78,7 +78,7 @@ function Navbar({ isDark, toggleTheme }) {
         : 'bg-transparent border-b border-transparent'
     }`}>
       <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" className="font-mono text-lg font-bold text-zinc-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+        <a href="#" className="font-mono text-lg font-bold text-zinc-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
           ~/caleb
         </a>
         <div className="flex items-center gap-1">
@@ -86,14 +86,14 @@ function Navbar({ isDark, toggleTheme }) {
             <a
               key={section}
               href={`#${section}`}
-              className="px-3 py-1.5 text-sm font-mono text-zinc-600 dark:text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md transition-all hidden sm:block"
+              className="px-3 py-1.5 text-sm font-mono text-zinc-600 dark:text-zinc-400 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md transition-all hidden sm:block"
             >
               {section}
             </a>
           ))}
           <button
             onClick={toggleTheme}
-            className="ml-2 p-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all"
+            className="ml-2 p-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 transition-all"
             aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
           >
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
@@ -138,7 +138,7 @@ function ScrollArrow() {
       aria-label="Scroll to experience section"
     >
       <div className="flex flex-col items-center gap-2 p-3 rounded-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm border border-zinc-200 dark:border-zinc-700 shadow-lg hover:shadow-xl transition-all hover:scale-110 cursor-pointer animate-bounce">
-        <ChevronDown size={24} className="text-zinc-600 dark:text-zinc-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
+        <ChevronDown size={24} className="text-zinc-600 dark:text-zinc-400 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors" />
       </div>
     </button>
   );
@@ -176,7 +176,7 @@ function Hero() {
             <div className="flex items-start gap-6 mb-6">
               {/* Profile Photo */}
               <div className="flex-shrink-0">
-                <div className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden border-2 border-emerald-500/30 dark:border-emerald-400/30 bg-gradient-to-br from-emerald-100 to-blue-100 dark:from-emerald-900/30 dark:to-blue-900/30 flex items-center justify-center relative">
+                <div className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden border-2 border-orange-500/30 dark:border-orange-400/30 bg-gradient-to-br from-orange-100 to-blue-100 dark:from-orange-900/30 dark:to-blue-900/30 flex items-center justify-center relative">
                   <img 
                     src="/IMG_3949.jpg" 
                     alt="Caleb Kang" 
@@ -188,13 +188,13 @@ function Hero() {
                       if (fallback) fallback.style.display = 'flex';
                     }}
                   />
-                  <span className="text-5xl md:text-6xl lg:text-7xl font-bold text-emerald-600 dark:text-emerald-400 photo-fallback hidden absolute inset-0 items-center justify-center">CK</span>
+                  <span className="text-5xl md:text-6xl lg:text-7xl font-bold text-orange-600 dark:text-orange-400 photo-fallback hidden absolute inset-0 items-center justify-center">CK</span>
                 </div>
               </div>
               
               <div className="flex-1">
                 <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm mb-4">
-                  <span className="text-emerald-500">❯</span> whoami
+                  <span className="text-orange-500">❯</span> whoami
                 </div>
                 
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white mb-4 font-sans tracking-tight">
@@ -203,7 +203,7 @@ function Hero() {
                 
                 <div className="space-y-2 mb-6">
                   <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-300">
-                    Computer Science @ <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Illinois</span> <span className="text-zinc-500 dark:text-zinc-400">(</span><a href="#pathways" className="text-emerald-600 dark:text-emerald-400 hover:underline">Engineering Pathways</a><span className="text-zinc-500 dark:text-zinc-400">)</span>
+                    Computer Science @ <span className="illini-gradient">Illinois</span> <span className="text-zinc-500 dark:text-zinc-400">(</span><a href="#pathways" className="text-orange-600 dark:text-orange-400 hover:underline font-semibold">Engineering Pathways</a><span className="text-zinc-500 dark:text-zinc-400">)</span>
                   </p>
                   <p className="text-zinc-500 dark:text-zinc-400 flex items-center gap-2 flex-wrap">
                     <MapPin size={16} />
@@ -213,8 +213,8 @@ function Hero() {
                       <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
                       Incoming @ Northrop Grumman
                     </span>
-                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-medium">
-                      <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 text-xs font-medium">
+                      <span className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse" />
                       ex-Fermilab
                     </span>
                   </p>
@@ -229,7 +229,7 @@ function Hero() {
 
             {/* Social links as terminal output */}
             <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm mb-3">
-              <span className="text-emerald-500">❯</span> cat socials.txt
+              <span className="text-orange-500">❯</span> cat socials.txt
             </div>
             <div className="flex flex-wrap gap-3 mb-4">
               {links.map(({ icon: Icon, href, label, handle }) => (
@@ -238,7 +238,7 @@ function Hero() {
                   href={href}
                   target={label !== 'Email' ? '_blank' : undefined}
                   rel={label !== 'Email' ? 'noopener noreferrer' : undefined}
-                  className="btn-hover group flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-emerald-500 dark:hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400"
+                  className="btn-hover group flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-orange-500 dark:hover:border-orange-500 hover:text-orange-600 dark:hover:text-orange-400"
                 >
                   <Icon size={16} />
                   <span className="text-sm">{handle}</span>
@@ -313,23 +313,23 @@ function ExperienceItem({ id, title, company, location, date, bullets, isRemote,
       {/* Background timeline (gray) */}
       <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-zinc-200 dark:bg-zinc-800" />
       
-      {/* Filling timeline (emerald) - grows based on scroll progress */}
+      {/* Filling timeline (orange) - grows based on scroll progress */}
       <div 
-        className="absolute left-0 top-0 w-0.5 bg-emerald-500 transition-all duration-100 ease-out"
+        className="absolute left-0 top-0 w-0.5 bg-orange-500 transition-all duration-100 ease-out"
         style={{ 
           height: isLast ? `${Math.min(progress, 100)}%` : `${progress}%`,
-          boxShadow: progress > 0 ? '0 0 8px rgba(16, 185, 129, 0.5)' : 'none'
+          boxShadow: progress > 0 ? '0 0 8px rgba(249, 115, 22, 0.5)' : 'none'
         }}
       />
       
       {/* Animated dot */}
       <div className={`absolute -left-[7px] top-0 w-4 h-4 rounded-full border-2 transition-all duration-300 z-10 ${
         isActive
-          ? 'bg-emerald-500 border-emerald-400 dark:border-emerald-400 shadow-lg shadow-emerald-500/50 scale-110'
+          ? 'bg-orange-500 border-orange-400 dark:border-orange-400 shadow-lg shadow-orange-500/50 scale-110'
           : 'bg-zinc-100 dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700'
       }`}>
         {isActive && !isComplete && (
-          <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-75" />
+          <span className="absolute inset-0 rounded-full bg-orange-500 animate-ping opacity-75" />
         )}
       </div>
       
@@ -339,7 +339,7 @@ function ExperienceItem({ id, title, company, location, date, bullets, isRemote,
         }`}>
           {title}
         </h3>
-        <p className="text-emerald-600 dark:text-emerald-400 font-medium">{company}</p>
+        <p className="text-orange-600 dark:text-orange-400 font-medium">{company}</p>
       </div>
       
       <div className={`flex flex-wrap items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400 mb-3 transition-all duration-500 delay-100 ${
@@ -360,7 +360,7 @@ function ExperienceItem({ id, title, company, location, date, bullets, isRemote,
       }`}>
         {bullets.map((bullet, idx) => (
           <li key={idx} className="flex gap-2">
-            <ChevronRight size={14} className="mt-1 text-emerald-500 flex-shrink-0" />
+            <ChevronRight size={14} className="mt-1 text-orange-500 flex-shrink-0" />
             <span>{bullet}</span>
           </li>
         ))}
@@ -458,22 +458,22 @@ function Research() {
 // Project Card
 function ProjectCard({ id, title, date, bullets, tags }) {
   return (
-    <div id={id} className="card-hover group p-6 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-emerald-500 dark:hover:border-emerald-500">
+    <div id={id} className="card-hover group p-6 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-orange-500 dark:hover:border-orange-500">
       <div className="flex items-start justify-between mb-3">
-        <div className="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
+        <div className="p-2 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400">
           <Terminal size={20} />
         </div>
         <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400">{date}</span>
       </div>
       
-      <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-3 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+      <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-3 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
         {title}
       </h3>
       
       <ul className="space-y-2 text-sm text-zinc-600 dark:text-zinc-400 mb-4">
         {bullets.map((bullet, idx) => (
           <li key={idx} className="flex gap-2">
-            <span className="text-emerald-500">•</span>
+            <span className="text-orange-500">•</span>
             <span>{bullet}</span>
           </li>
         ))}
@@ -558,14 +558,14 @@ function Skills() {
           <div className="grid md:grid-cols-3 gap-8">
             {Object.entries(skills).map(([category, items]) => (
               <div key={category}>
-                <h3 className="text-sm font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-4">
+                <h3 className="text-sm font-mono text-orange-600 dark:text-orange-400 uppercase tracking-wider mb-4">
                   {category}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {items.map((skill) => (
                     <span
                       key={skill}
-                      className="px-3 py-1.5 text-sm rounded-lg bg-white/80 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-default"
+                      className="px-3 py-1.5 text-sm rounded-lg bg-white/80 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-orange-500 hover:text-orange-600 dark:hover:text-orange-400 transition-colors cursor-default"
                     >
                       {skill}
                     </span>
@@ -594,7 +594,7 @@ function Resume() {
             <a
               href="/Kang_Caleb_Resume.pdf"
               download
-              className="btn-hover flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm transition-colors"
+              className="btn-hover flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-medium text-sm transition-colors"
             >
               <Download size={16} />
               Download PDF
@@ -622,7 +622,7 @@ function Footer() {
         <div className="card-hover bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-lg p-6 mb-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm font-mono text-zinc-500 dark:text-zinc-400">
-              <span className="text-emerald-500">❯</span> echo "© {new Date().getFullYear()} Caleb Kang"
+              <span className="text-orange-500">❯</span> echo "© {new Date().getFullYear()} Caleb Kang"
             </p>
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
               Built with React + Tailwind CSS
@@ -649,7 +649,7 @@ function EngineeringPathways() {
               href="https://grainger.illinois.edu/admissions/undergraduate/pathways" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-emerald-600 dark:text-emerald-400 hover:underline font-medium"
+              className="text-orange-600 dark:text-orange-400 hover:underline font-medium"
             >
               Engineering Pathways
             </a> offers students interested in beginning their college education at an Illinois community college a <strong className="text-zinc-800 dark:text-zinc-200">streamlined transfer experience and guaranteed admission</strong> to The Grainger College of Engineering at the University of Illinois Urbana-Champaign upon successful completion of program requirements.
@@ -658,7 +658,7 @@ function EngineeringPathways() {
             href="https://grainger.illinois.edu/admissions/undergraduate/pathways" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-medium transition-colors"
+            className="inline-flex items-center gap-2 text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-medium transition-colors"
           >
             Learn more about Engineering Pathways
             <ExternalLink size={16} />
@@ -674,9 +674,14 @@ function App() {
   const [isDark, toggleTheme] = useTheme()
 
   return (
-    <div className="min-h-screen text-zinc-900 dark:text-white transition-colors duration-300">
-      {/* Animated background - different for light/dark mode */}
-      {isDark ? <ParticleBackground /> : <LightModeBackground />}
+    <div className="min-h-screen text-zinc-900 dark:text-white transition-colors duration-[600ms]">
+      {/* Animated background - different for light/dark mode with crossfade */}
+      <div className={`transition-opacity duration-700 ease-in-out ${isDark ? 'opacity-100' : 'opacity-0'}`}>
+        <ParticleBackground />
+      </div>
+      <div className={`transition-opacity duration-700 ease-in-out ${isDark ? 'opacity-0' : 'opacity-100'}`}>
+        <LightModeBackground />
+      </div>
       
       <Navbar isDark={isDark} toggleTheme={toggleTheme} />
       <main className="relative z-10">
