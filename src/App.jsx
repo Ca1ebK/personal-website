@@ -374,8 +374,8 @@ function Experience() {
   const experiences = [
     {
       id: 'exp-northrop',
-      title: 'Incoming Software Engineer',
-      company: 'Northrop Grumman',
+      title: 'Incoming Software Engineer Intern',
+      company: 'Northrop Grumman Corporation',
       location: 'Rolling Meadows, IL',
       date: 'Summer 2026',
       bullets: [
@@ -384,10 +384,10 @@ function Experience() {
     },
     {
       id: 'exp-fermilab',
-      title: 'Software Development Intern',
+      title: 'Software Engineer Intern',
       company: 'Fermi National Accelerator Laboratory',
       location: 'Batavia, IL',
-      date: 'Jun 2025 – Aug 2025',
+      date: 'Jun 2025 – Aug 2025 · 3 mos',
       bullets: [
         'Engineered Python state machine to automate ASIC chip testing for DUNE, scaling to 6 national sites (~300k chips)',
         'Designed comprehensive UML state diagrams for robust error handling',
@@ -399,7 +399,7 @@ function Experience() {
       title: 'Student Aide',
       company: 'Harper College',
       location: 'Palatine, IL',
-      date: 'Aug 2024 – Present',
+      date: 'Aug 2024 – Present · 1 yr 5 mos',
       bullets: [
         'Audited faculty syllabi for institutional transfer agreement compliance',
         'Optimized administrative logistics including inventory and campus-wide equipment distribution',
@@ -441,7 +441,7 @@ function Research() {
             title="Research Assistant"
             company="Biola University"
             location="Remote"
-            date="Oct 2024 – May 2025"
+            date="Oct 2024 – May 2025 · 8 mos"
             isRemote={true}
             isLast={true}
             bullets={[
@@ -499,7 +499,7 @@ function Projects() {
     {
       id: 'proj-farming',
       title: 'C++ Farming Simulator',
-      date: 'Oct – Dec 2025',
+      date: 'Oct 2025 – Dec 2025',
       bullets: [
         'Terminal-based OOP game with inheritance & polymorphism for crop lifecycle modeling',
         'Dynamic 2D grid with manual memory management for efficient object allocation',
