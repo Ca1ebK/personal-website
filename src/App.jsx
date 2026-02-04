@@ -12,7 +12,8 @@ import {
   Download,
   ExternalLink,
   ChevronRight,
-  ChevronDown
+  ChevronDown,
+  Music
 } from 'lucide-react'
 import ParticleBackground from './ParticleBackground'
 import LightModeBackground from './LightModeBackground'
@@ -634,6 +635,132 @@ function Footer() {
   )
 }
 
+// Now Playing Component
+function NowPlaying() {
+  const [nowPlaying, setNowPlaying] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchNowPlaying() {
+      try {
+        const response = await fetch('/api/spotify');
+        const data = await response.json();
+        setNowPlaying(data);
+      } catch (error) {
+        console.error('Failed to fetch now playing:', error);
+        setNowPlaying({ isPlaying: false });
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchNowPlaying();
+    // Poll every 30 seconds
+    const interval = setInterval(fetchNowPlaying, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
+        <div className="w-16 h-16 rounded-lg bg-zinc-200 dark:bg-zinc-700 animate-pulse" />
+        <div className="flex-1">
+          <div className="h-4 w-32 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse mb-2" />
+          <div className="h-3 w-24 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!nowPlaying?.isPlaying) {
+    return (
+      <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
+        <div className="w-16 h-16 rounded-lg bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center">
+          <Music size={24} className="text-zinc-400" />
+        </div>
+        <div className="flex-1">
+          <p className="text-zinc-500 dark:text-zinc-400 text-sm font-medium">Not playing</p>
+          <p className="text-zinc-400 dark:text-zinc-500 text-xs">Spotify is paused</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <a 
+      href={nowPlaying.songUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-4 p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 hover:border-green-500 dark:hover:border-green-500 transition-all group"
+    >
+      <div className="relative">
+        <img 
+          src={nowPlaying.albumImageUrl} 
+          alt={nowPlaying.album}
+          className="w-16 h-16 rounded-lg shadow-md"
+        />
+        <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center shadow-md">
+          <span className="text-white text-[10px]">▶</span>
+        </div>
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-zinc-900 dark:text-white font-medium truncate group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+          {nowPlaying.title}
+        </p>
+        <p className="text-zinc-500 dark:text-zinc-400 text-sm truncate">{nowPlaying.artist}</p>
+        <p className="text-zinc-400 dark:text-zinc-500 text-xs truncate">{nowPlaying.album}</p>
+      </div>
+      <div className="flex-shrink-0">
+        <ExternalLink size={16} className="text-zinc-400 group-hover:text-green-500 transition-colors" />
+      </div>
+    </a>
+  );
+}
+
+// Spotify Section
+function SpotifySection() {
+  return (
+    <section id="spotify" className="py-4 px-6">
+      <div className="max-w-4xl mx-auto">
+        <div className="card-hover bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-lg p-6 md:p-8 mb-8">
+          <CommandHeader command="spotify --now-playing" />
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">
+              <Music size={24} />
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white">
+              What I'm Listening To
+            </h2>
+          </div>
+          
+          {/* Now Playing Widget */}
+          <div className="mb-6">
+            <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-wider">Now Playing</p>
+            <NowPlaying />
+          </div>
+
+          {/* Playlist Embed */}
+          <div>
+            <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-wider">My Top Tracks</p>
+            <div className="rounded-xl overflow-hidden">
+              <iframe
+                title="Spotify Embed: My Top Tracks"
+                src="https://open.spotify.com/embed/playlist/4T9YCYXCFDNSLlgYmCtOHF?utm_source=generator&theme=0"
+                width="100%"
+                height="352"
+                frameBorder="0"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                className="rounded-xl"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // Engineering Pathways Section
 function EngineeringPathways() {
   return (
@@ -691,6 +818,7 @@ function App() {
         <Research />
         <Projects />
         <Skills />
+        <SpotifySection />
         <EngineeringPathways />
         <Resume />
       </main>
