@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
-import { 
-  Sun, 
-  Moon, 
-  Github, 
-  Linkedin, 
-  Mail, 
+import {
+  Sun,
+  Moon,
+  Github,
+  Linkedin,
+  Mail,
   Calendar,
   MapPin,
   Terminal,
@@ -73,11 +73,10 @@ function Navbar({ isDark, toggleTheme }) {
   }, [])
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled 
-        ? 'bg-slate-50/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200/50 dark:border-zinc-800/50' 
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
+        ? 'bg-slate-50/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200/50 dark:border-zinc-800/50'
         : 'bg-transparent border-b border-transparent'
-    }`}>
+      }`}>
       <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
         <a href="#" className="font-mono text-lg font-bold text-zinc-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
           ~/caleb
@@ -119,7 +118,7 @@ function ScrollArrow() {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); // Initial check
-    
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -133,9 +132,8 @@ function ScrollArrow() {
   return (
     <button
       onClick={scrollToExperience}
-      className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40 group cursor-pointer transition-opacity duration-500 ${
-        isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
-      }`}
+      className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40 group cursor-pointer transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
       aria-label="Scroll to experience section"
     >
       <div className="flex flex-col items-center gap-2 p-3 rounded-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm border border-zinc-200 dark:border-zinc-700 shadow-lg hover:shadow-xl transition-all hover:scale-110 cursor-pointer animate-bounce">
@@ -171,16 +169,16 @@ function Hero() {
             </div>
             <span className="ml-3 text-xs font-mono text-zinc-500 dark:text-zinc-400">caleb@portfolio ~ </span>
           </div>
-          
+
           {/* Terminal content */}
           <div className="p-6 md:p-8 font-mono">
             <div className="flex items-start gap-6 mb-6">
               {/* Profile Photo */}
               <div className="flex-shrink-0">
                 <div className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden border-2 border-orange-500/30 dark:border-orange-400/30 bg-gradient-to-br from-orange-100 to-blue-100 dark:from-orange-900/30 dark:to-blue-900/30 flex items-center justify-center relative">
-                  <img 
-                    src="/IMG_3949.jpg" 
-                    alt="Caleb Kang" 
+                  <img
+                    src="/IMG_3949.jpg"
+                    alt="Caleb Kang"
                     className="w-full h-full object-cover absolute inset-0"
                     onError={(e) => {
                       // Fallback to initials if image doesn't load
@@ -192,16 +190,16 @@ function Hero() {
                   <span className="text-5xl md:text-6xl lg:text-7xl font-bold text-orange-600 dark:text-orange-400 photo-fallback hidden absolute inset-0 items-center justify-center">CK</span>
                 </div>
               </div>
-              
+
               <div className="flex-1">
                 <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm mb-4">
                   <span className="text-orange-500">❯</span> whoami
                 </div>
-                
+
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white mb-4 font-sans tracking-tight">
                   Caleb Kang
                 </h1>
-                
+
                 <div className="space-y-2 mb-6">
                   <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-300">
                     Computer Science @ <span className="illini-gradient">Illinois</span> <span className="text-zinc-500 dark:text-zinc-400">(</span><a href="#pathways" className="text-orange-600 dark:text-orange-400 hover:underline font-semibold">Engineering Pathways</a><span className="text-zinc-500 dark:text-zinc-400">)</span>
@@ -224,7 +222,7 @@ function Hero() {
             </div>
 
             <p className="text-zinc-600 dark:text-zinc-400 mb-8 leading-relaxed">
-              Building things at the intersection of <span className="text-zinc-800 dark:text-zinc-200 font-medium">scalable systems</span>, <span className="text-zinc-800 dark:text-zinc-200 font-medium">AI/ML</span>, and <span className="text-zinc-800 dark:text-zinc-200 font-medium">robotics</span>. 
+              Building things at the intersection of <span className="text-zinc-800 dark:text-zinc-200 font-medium">scalable systems</span>, <span className="text-zinc-800 dark:text-zinc-200 font-medium">AI/ML</span>, and <span className="text-zinc-800 dark:text-zinc-200 font-medium">robotics</span>.
               Passionate about using software and AI to solve tangible problems.
             </p>
 
@@ -263,37 +261,37 @@ function useScrollProgress() {
   useEffect(() => {
     const handleScroll = () => {
       if (!ref.current) return
-      
+
       const rect = ref.current.getBoundingClientRect()
       const elementHeight = rect.height
-      
+
       // Start point: trigger much earlier - when element is still well below viewport
       // Trigger when element top is 500px below viewport top (very early trigger)
       const earlyTriggerOffset = 700
       const triggerPoint = earlyTriggerOffset
-      
+
       // Get element position
       const elementTop = rect.top
-      
+
       // Start animating when element top reaches trigger point (still below viewport)
       if (elementTop > triggerPoint) {
         setProgress(0)
         return
       }
-      
+
       // Calculate progress: how much of element has scrolled past trigger point
       // Use a much smaller effective height to make items appear very quickly
       const effectiveHeight = elementHeight * 0.15 // Very small multiplier for fast appearance
       const distanceScrolled = triggerPoint - elementTop
       const newProgress = Math.min(100, Math.max(0, (distanceScrolled / effectiveHeight) * 100))
-      
+
       setProgress(newProgress)
       if (newProgress >= 100) setIsComplete(true)
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll() // Initial check
-    
+
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -306,46 +304,43 @@ function ExperienceItem({ id, title, company, location, date, bullets, isRemote,
   const isActive = progress > 5 // Lower threshold so items activate sooner
 
   return (
-    <div 
+    <div
       ref={ref}
       id={id}
       className="group relative pl-6 pb-8 last:pb-0 transition-all duration-500"
     >
       {/* Background timeline (gray) */}
       <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-zinc-200 dark:bg-zinc-800" />
-      
+
       {/* Filling timeline (orange) - grows based on scroll progress */}
-      <div 
+      <div
         className="absolute left-0 top-0 w-0.5 bg-orange-500 transition-all duration-100 ease-out"
-        style={{ 
+        style={{
           height: isLast ? `${Math.min(progress, 100)}%` : `${progress}%`,
           boxShadow: progress > 0 ? '0 0 8px rgba(249, 115, 22, 0.5)' : 'none'
         }}
       />
-      
+
       {/* Animated dot */}
-      <div className={`absolute -left-[7px] top-0 w-4 h-4 rounded-full border-2 transition-all duration-300 z-10 ${
-        isActive
+      <div className={`absolute -left-[7px] top-0 w-4 h-4 rounded-full border-2 transition-all duration-300 z-10 ${isActive
           ? 'bg-orange-500 border-orange-400 dark:border-orange-400 shadow-lg shadow-orange-500/50 scale-110'
           : 'bg-zinc-100 dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700'
-      }`}>
+        }`}>
         {isActive && !isComplete && (
           <span className="absolute inset-0 rounded-full bg-orange-500 animate-ping opacity-75" />
         )}
       </div>
-      
+
       <div className={`mb-2 transition-all duration-500 ${isActive ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0'}`}>
-        <h3 className={`text-lg font-semibold transition-colors ${
-          isActive ? 'text-zinc-900 dark:text-white' : 'text-zinc-400 dark:text-zinc-600'
-        }`}>
+        <h3 className={`text-lg font-semibold transition-colors ${isActive ? 'text-zinc-900 dark:text-white' : 'text-zinc-400 dark:text-zinc-600'
+          }`}>
           {title}
         </h3>
         <p className="text-orange-600 dark:text-orange-400 font-medium">{company}</p>
       </div>
-      
-      <div className={`flex flex-wrap items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400 mb-3 transition-all duration-500 delay-100 ${
-        isActive ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0'
-      }`}>
+
+      <div className={`flex flex-wrap items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400 mb-3 transition-all duration-500 delay-100 ${isActive ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0'
+        }`}>
         <span className="flex items-center gap-1">
           <Calendar size={14} />
           {date}
@@ -355,10 +350,9 @@ function ExperienceItem({ id, title, company, location, date, bullets, isRemote,
           {isRemote ? 'Remote' : location}
         </span>
       </div>
-      
-      <ul className={`space-y-2 text-sm text-zinc-600 dark:text-zinc-400 transition-all duration-500 delay-200 ${
-        isActive ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0'
-      }`}>
+
+      <ul className={`space-y-2 text-sm text-zinc-600 dark:text-zinc-400 transition-all duration-500 delay-200 ${isActive ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0'
+        }`}>
         {bullets.map((bullet, idx) => (
           <li key={idx} className="flex gap-2">
             <ChevronRight size={14} className="mt-1 text-orange-500 flex-shrink-0" />
@@ -466,11 +460,11 @@ function ProjectCard({ id, title, date, bullets, tags }) {
         </div>
         <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400">{date}</span>
       </div>
-      
+
       <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-3 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
         {title}
       </h3>
-      
+
       <ul className="space-y-2 text-sm text-zinc-600 dark:text-zinc-400 mb-4">
         {bullets.map((bullet, idx) => (
           <li key={idx} className="flex gap-2">
@@ -479,7 +473,7 @@ function ProjectCard({ id, title, date, bullets, tags }) {
           </li>
         ))}
       </ul>
-      
+
       <div className="flex flex-wrap gap-2">
         {tags.map((tag) => (
           <span
@@ -601,7 +595,7 @@ function Resume() {
               Download PDF
             </a>
           </div>
-          
+
           <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
             <iframe
               src="/Kang_Caleb_Resume.pdf"
@@ -635,85 +629,88 @@ function Footer() {
   )
 }
 
-// Now Playing Component
-function NowPlaying() {
-  const [nowPlaying, setNowPlaying] = useState(null);
+// Top Tracks Component
+function TopTracks() {
+  const [tracks, setTracks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    async function fetchNowPlaying() {
+    async function fetchTopTracks() {
       try {
         const response = await fetch('/api/spotify');
         const data = await response.json();
-        setNowPlaying(data);
-      } catch (error) {
-        console.error('Failed to fetch now playing:', error);
-        setNowPlaying({ isPlaying: false });
+        setTracks(data.tracks || []);
+      } catch (err) {
+        console.error('Failed to fetch top tracks:', err);
+        setError(true);
       } finally {
         setLoading(false);
       }
     }
 
-    fetchNowPlaying();
-    // Poll every 30 seconds
-    const interval = setInterval(fetchNowPlaying, 30000);
-    return () => clearInterval(interval);
+    fetchTopTracks();
   }, []);
 
   if (loading) {
     return (
-      <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
-        <div className="w-16 h-16 rounded-lg bg-zinc-200 dark:bg-zinc-700 animate-pulse" />
-        <div className="flex-1">
-          <div className="h-4 w-32 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse mb-2" />
-          <div className="h-3 w-24 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse" />
-        </div>
+      <div className="space-y-3">
+        {[...Array(5)].map((_, i) => (
+          <div key={i} className="flex items-center gap-4 p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
+            <span className="text-sm font-mono text-zinc-300 dark:text-zinc-600 w-5 text-center">{i + 1}</span>
+            <div className="w-12 h-12 rounded-lg bg-zinc-200 dark:bg-zinc-700 animate-pulse flex-shrink-0" />
+            <div className="flex-1 min-w-0">
+              <div className="h-4 w-36 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse mb-2" />
+              <div className="h-3 w-24 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse" />
+            </div>
+          </div>
+        ))}
       </div>
     );
   }
 
-  if (!nowPlaying?.isPlaying) {
+  if (error || tracks.length === 0) {
     return (
       <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
-        <div className="w-16 h-16 rounded-lg bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center">
-          <Music size={24} className="text-zinc-400" />
+        <div className="w-12 h-12 rounded-lg bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center">
+          <Music size={20} className="text-zinc-400" />
         </div>
         <div className="flex-1">
-          <p className="text-zinc-500 dark:text-zinc-400 text-sm font-medium">Not playing</p>
-          <p className="text-zinc-400 dark:text-zinc-500 text-xs">Spotify is paused</p>
+          <p className="text-zinc-500 dark:text-zinc-400 text-sm font-medium">Couldn't load top tracks</p>
+          <p className="text-zinc-400 dark:text-zinc-500 text-xs">Check back later!</p>
         </div>
       </div>
     );
   }
 
   return (
-    <a 
-      href={nowPlaying.songUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex items-center gap-4 p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 hover:border-green-500 dark:hover:border-green-500 transition-all group"
-    >
-      <div className="relative">
-        <img 
-          src={nowPlaying.albumImageUrl} 
-          alt={nowPlaying.album}
-          className="w-16 h-16 rounded-lg shadow-md"
-        />
-        <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center shadow-md">
-          <span className="text-white text-[10px]">▶</span>
-        </div>
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-zinc-900 dark:text-white font-medium truncate group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
-          {nowPlaying.title}
-        </p>
-        <p className="text-zinc-500 dark:text-zinc-400 text-sm truncate">{nowPlaying.artist}</p>
-        <p className="text-zinc-400 dark:text-zinc-500 text-xs truncate">{nowPlaying.album}</p>
-      </div>
-      <div className="flex-shrink-0">
-        <ExternalLink size={16} className="text-zinc-400 group-hover:text-green-500 transition-colors" />
-      </div>
-    </a>
+    <div className="space-y-3">
+      {tracks.map((track, i) => (
+        <a
+          key={i}
+          href={track.songUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-4 p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 hover:border-green-500 dark:hover:border-green-500 transition-all group"
+        >
+          <span className="text-sm font-mono font-bold text-zinc-400 dark:text-zinc-500 w-5 text-center group-hover:text-green-500 transition-colors">
+            {i + 1}
+          </span>
+          <img
+            src={track.albumImageUrl}
+            alt={track.album}
+            className="w-12 h-12 rounded-lg shadow-md flex-shrink-0"
+          />
+          <div className="flex-1 min-w-0">
+            <p className="text-zinc-900 dark:text-white font-medium truncate group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+              {track.title}
+            </p>
+            <p className="text-zinc-500 dark:text-zinc-400 text-sm truncate">{track.artist}</p>
+          </div>
+          <ExternalLink size={16} className="text-zinc-400 group-hover:text-green-500 transition-colors flex-shrink-0" />
+        </a>
+      ))}
+    </div>
   );
 }
 
@@ -723,38 +720,18 @@ function SpotifySection() {
     <section id="spotify" className="py-4 px-6">
       <div className="max-w-4xl mx-auto">
         <div className="card-hover bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-lg p-6 md:p-8 mb-8">
-          <CommandHeader command="spotify --now-playing" />
+          <CommandHeader command="spotify --top-tracks" />
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">
               <Music size={24} />
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white">
-              What I'm Listening To
+              My Top Songs
             </h2>
           </div>
-          
-          {/* Now Playing Widget */}
-          <div className="mb-6">
-            <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-wider">Now Playing</p>
-            <NowPlaying />
-          </div>
 
-          {/* Playlist Embed */}
-          <div>
-            <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-wider">My Top Tracks</p>
-            <div className="rounded-xl overflow-hidden">
-              <iframe
-                title="Spotify Embed: My Top Tracks"
-                src="https://open.spotify.com/embed/playlist/4T9YCYXCFDNSLlgYmCtOHF?utm_source=generator&theme=0"
-                width="100%"
-                height="352"
-                frameBorder="0"
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"
-                className="rounded-xl"
-              />
-            </div>
-          </div>
+          <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400 mb-3 uppercase tracking-wider">Last 4 Weeks</p>
+          <TopTracks />
         </div>
       </div>
     </section>
@@ -772,18 +749,18 @@ function EngineeringPathways() {
             Engineering Pathways
           </h2>
           <p className="text-zinc-600 dark:text-zinc-400 mb-4 leading-relaxed">
-            <a 
-              href="https://grainger.illinois.edu/admissions/undergraduate/pathways" 
-              target="_blank" 
+            <a
+              href="https://grainger.illinois.edu/admissions/undergraduate/pathways"
+              target="_blank"
               rel="noopener noreferrer"
               className="text-orange-600 dark:text-orange-400 hover:underline font-medium"
             >
               Engineering Pathways
             </a> offers students interested in beginning their college education at an Illinois community college a <strong className="text-zinc-800 dark:text-zinc-200">streamlined transfer experience and guaranteed admission</strong> to The Grainger College of Engineering at the University of Illinois Urbana-Champaign upon successful completion of program requirements.
           </p>
-          <a 
-            href="https://grainger.illinois.edu/admissions/undergraduate/pathways" 
-            target="_blank" 
+          <a
+            href="https://grainger.illinois.edu/admissions/undergraduate/pathways"
+            target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-medium transition-colors"
           >
@@ -809,7 +786,7 @@ function App() {
       <div className={`transition-opacity duration-700 ease-in-out ${isDark ? 'opacity-0' : 'opacity-100'}`}>
         <LightModeBackground />
       </div>
-      
+
       <Navbar isDark={isDark} toggleTheme={toggleTheme} />
       <main className="relative z-10">
         <Hero />

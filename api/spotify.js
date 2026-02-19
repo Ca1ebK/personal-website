@@ -1,12 +1,12 @@
-const client_id = process.env.SPOTIFY_CLIENT_ID;
-const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-const refresh_token = process.env.SPOTIFY_REFRESH_TOKEN;
-
-const basic = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
 const TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token';
-const NOW_PLAYING_ENDPOINT = 'https://api.spotify.com/v1/me/player/currently-playing';
+const TOP_TRACKS_ENDPOINT = 'https://api.spotify.com/v1/me/top/tracks';
 
 async function getAccessToken() {
+  const client_id = process.env.SPOTIFY_CLIENT_ID;
+  const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+  const refresh_token = process.env.SPOTIFY_REFRESH_TOKEN;
+  const basic = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
+  console.log('ENV check - client_id exists:', !!client_id, 'client_secret exists:', !!client_secret, 'refresh_token exists:', !!refresh_token);
   const response = await fetch(TOKEN_ENDPOINT, {
     method: 'POST',
     headers: {
@@ -19,13 +19,16 @@ async function getAccessToken() {
     }),
   });
 
-  return response.json();
+  const data = await response.json();
+  console.log('Token response status:', response.status, 'has access_token:', !!data.access_token);
+  if (!data.access_token) console.error('Token error:', JSON.stringify(data));
+  return data;
 }
 
-async function getNowPlaying() {
+async function getTopTracks() {
   const { access_token } = await getAccessToken();
 
-  return fetch(NOW_PLAYING_ENDPOINT, {
+  return fetch(`${TOP_TRACKS_ENDPOINT}?limit=5&time_range=short_term`, {
     headers: {
       Authorization: `Bearer ${access_token}`,
     },
@@ -33,40 +36,31 @@ async function getNowPlaying() {
 }
 
 export default async function handler(req, res) {
-  // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET');
-  
-  try {
-    const response = await getNowPlaying();
 
-    if (response.status === 204 || response.status > 400) {
-      return res.status(200).json({ isPlaying: false });
+  try {
+    const response = await getTopTracks();
+
+    if (response.status !== 200) {
+      const errorBody = await response.text();
+      console.error('Spotify API non-200:', response.status, errorBody);
+      return res.status(200).json({ tracks: [], debug: { status: response.status, body: errorBody } });
     }
 
     const data = await response.json();
 
-    if (!data.item) {
-      return res.status(200).json({ isPlaying: false });
-    }
+    const tracks = (data.items || []).map((track) => ({
+      title: track.name,
+      artist: track.artists.map((a) => a.name).join(', '),
+      album: track.album.name,
+      albumImageUrl: track.album.images[0]?.url,
+      songUrl: track.external_urls.spotify,
+    }));
 
-    const isPlaying = data.is_playing;
-    const title = data.item.name;
-    const artist = data.item.artists.map((artist) => artist.name).join(', ');
-    const album = data.item.album.name;
-    const albumImageUrl = data.item.album.images[0]?.url;
-    const songUrl = data.item.external_urls.spotify;
-
-    return res.status(200).json({
-      isPlaying,
-      title,
-      artist,
-      album,
-      albumImageUrl,
-      songUrl,
-    });
+    return res.status(200).json({ tracks });
   } catch (error) {
     console.error('Spotify API error:', error);
-    return res.status(200).json({ isPlaying: false });
+    return res.status(200).json({ tracks: [] });
   }
 }

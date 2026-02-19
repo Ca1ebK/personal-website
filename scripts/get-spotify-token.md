@@ -13,7 +13,7 @@
 Open this URL in your browser (replace `YOUR_CLIENT_ID`):
 
 ```
-https://accounts.spotify.com/authorize?client_id=YOUR_CLIENT_ID&response_type=code&redirect_uri=http://localhost:3000/callback&scope=user-read-currently-playing%20user-read-playback-state
+https://accounts.spotify.com/authorize?client_id=YOUR_CLIENT_ID&response_type=code&redirect_uri=http://localhost:3000/callback&scope=user-read-currently-playing%20user-read-playback-state%20user-top-read
 ```
 
 You'll be redirected to a URL like:
