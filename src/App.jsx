@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import {
   Sun,
   Moon,
+  Monitor,
   Github,
   Linkedin,
   Mail,
@@ -20,35 +21,87 @@ import LightModeBackground from './LightModeBackground'
 
 // Theme hook with localStorage persistence
 function useTheme() {
-  const [isDark, setIsDark] = useState(() => {
-    // Check localStorage first, default to dark
+  const [themeMode, setThemeMode] = useState(() => {
+    // Check localStorage first
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('theme')
+      const saved = localStorage.getItem('themeMode')
       if (saved) {
-        return saved === 'dark'
+        return saved
+      }
+      // Migrate from old 'theme' key if exists
+      const oldSaved = localStorage.getItem('theme')
+      if (oldSaved) {
+        localStorage.removeItem('theme')
+        return oldSaved
       }
     }
-    return true // Default to dark mode
+    return 'system' // Default to system
+  })
+
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window !== 'undefined') {
+      if (themeMode === 'system') {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches
+      }
+      return themeMode === 'dark'
+    }
+    return true
   })
 
   // Apply theme changes to DOM
   useEffect(() => {
     const root = document.documentElement
-    if (isDark) {
+
+    let actualThemeIsDark = themeMode === 'dark'
+    if (themeMode === 'system') {
+      actualThemeIsDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    }
+
+    if (actualThemeIsDark) {
       root.classList.add('dark')
       root.classList.remove('light')
     } else {
       root.classList.remove('dark')
       root.classList.add('light')
     }
-    localStorage.setItem('theme', isDark ? 'dark' : 'light')
-  }, [isDark])
+
+    // react-hooks/set-state-in-effect ignores:
+    // eslint-disable-next-line
+    setIsDark(actualThemeIsDark)
+    localStorage.setItem('themeMode', themeMode)
+  }, [themeMode])
+
+  // Listen for system theme changes
+  useEffect(() => {
+    if (themeMode !== 'system') return
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const handleChange = (e) => {
+      const root = document.documentElement
+      if (e.matches) {
+        root.classList.add('dark')
+        root.classList.remove('light')
+        setIsDark(true)
+      } else {
+        root.classList.remove('dark')
+        root.classList.add('light')
+        setIsDark(false)
+      }
+    }
+
+    mediaQuery.addEventListener('change', handleChange)
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [themeMode])
 
   const toggleTheme = () => {
-    setIsDark(prev => !prev)
+    setThemeMode(prev => {
+      if (prev === 'system') return 'light'
+      if (prev === 'light') return 'dark'
+      return 'system'
+    })
   }
 
-  return [isDark, toggleTheme]
+  return [isDark, themeMode, toggleTheme]
 }
 
 // Terminal-style command header
@@ -63,7 +116,7 @@ function CommandHeader({ command, className = '' }) {
 }
 
 // Navbar Component
-function Navbar({ isDark, toggleTheme }) {
+function Navbar({ themeMode, toggleTheme }) {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -74,8 +127,8 @@ function Navbar({ isDark, toggleTheme }) {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-        ? 'bg-slate-50/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200/50 dark:border-zinc-800/50'
-        : 'bg-transparent border-b border-transparent'
+      ? 'bg-slate-50/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200/50 dark:border-zinc-800/50'
+      : 'bg-transparent border-b border-transparent'
       }`}>
       <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
         <a href="#" className="font-mono text-lg font-bold text-zinc-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
@@ -93,10 +146,11 @@ function Navbar({ isDark, toggleTheme }) {
           ))}
           <button
             onClick={toggleTheme}
-            className="ml-2 p-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 transition-all"
-            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            className="ml-2 p-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-orange-600 dark:hover:text-orange-400 transition-all w-9 h-9 flex items-center justify-center"
+            aria-label={`Current theme: ${themeMode}. Click to cycle theme.`}
+            title={`Current theme: ${themeMode}`}
           >
-            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+            {themeMode === 'system' ? <Monitor size={18} /> : themeMode === 'light' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
         </div>
       </div>
@@ -323,8 +377,8 @@ function ExperienceItem({ id, title, company, location, date, bullets, isRemote,
 
       {/* Animated dot */}
       <div className={`absolute -left-[7px] top-0 w-4 h-4 rounded-full border-2 transition-all duration-300 z-10 ${isActive
-          ? 'bg-orange-500 border-orange-400 dark:border-orange-400 shadow-lg shadow-orange-500/50 scale-110'
-          : 'bg-zinc-100 dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700'
+        ? 'bg-orange-500 border-orange-400 dark:border-orange-400 shadow-lg shadow-orange-500/50 scale-110'
+        : 'bg-zinc-100 dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700'
         }`}>
         {isActive && !isComplete && (
           <span className="absolute inset-0 rounded-full bg-orange-500 animate-ping opacity-75" />
@@ -775,7 +829,7 @@ function EngineeringPathways() {
 
 // Main App
 function App() {
-  const [isDark, toggleTheme] = useTheme()
+  const [isDark, themeMode, toggleTheme] = useTheme()
 
   return (
     <div className="min-h-screen text-zinc-900 dark:text-white transition-colors duration-[600ms]">
@@ -787,7 +841,7 @@ function App() {
         <LightModeBackground />
       </div>
 
-      <Navbar isDark={isDark} toggleTheme={toggleTheme} />
+      <Navbar themeMode={themeMode} toggleTheme={toggleTheme} />
       <main className="relative z-10">
         <Hero />
         <ScrollArrow />
