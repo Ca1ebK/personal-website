@@ -683,109 +683,201 @@ function Footer() {
   )
 }
 
-// Top Tracks Component
-function TopTracks() {
-  const [tracks, setTracks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+// Spotify Section
+function SpotifySection() {
+  const [spotifyData, setSpotifyData] = useState({
+    nowPlaying: null,
+    tracks: [],
+    tracksRangeLabel: 'Last 6 Months',
+    error: '',
+  })
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function fetchTopTracks() {
+    let isMounted = true
+
+    async function fetchSpotifyData() {
       try {
-        const response = await fetch('/api/spotify');
-        const data = await response.json();
-        setTracks(data.tracks || []);
-      } catch (err) {
-        console.error('Failed to fetch top tracks:', err);
-        setError(true);
+        const response = await fetch('/api/spotify')
+        const data = await response.json()
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to load Spotify data.')
+        }
+
+        if (isMounted) {
+          setSpotifyData({
+            nowPlaying: data.nowPlaying,
+            tracks: data.tracks || [],
+            tracksRangeLabel: data.tracksRangeLabel || 'Last 6 Months',
+            error: '',
+          })
+        }
+      } catch (error) {
+        console.error('Failed to fetch Spotify data:', error)
+        if (isMounted) {
+          setSpotifyData({
+            nowPlaying: null,
+            tracks: [],
+            tracksRangeLabel: 'Last 6 Months',
+            error: error.message || 'Unable to load Spotify data.',
+          })
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false)
+        }
       }
     }
 
-    fetchTopTracks();
-  }, []);
+    fetchSpotifyData()
+    const interval = setInterval(fetchSpotifyData, 30000)
 
-  if (loading) {
-    return (
-      <div className="space-y-3">
-        {[...Array(5)].map((_, i) => (
-          <div key={i} className="flex items-center gap-4 p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
-            <span className="text-sm font-mono text-zinc-300 dark:text-zinc-600 w-5 text-center">{i + 1}</span>
-            <div className="w-12 h-12 rounded-lg bg-zinc-200 dark:bg-zinc-700 animate-pulse flex-shrink-0" />
-            <div className="flex-1 min-w-0">
-              <div className="h-4 w-36 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse mb-2" />
-              <div className="h-3 w-24 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse" />
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  }
+    return () => {
+      isMounted = false
+      clearInterval(interval)
+    }
+  }, [])
 
-  if (error || tracks.length === 0) {
-    return (
-      <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
-        <div className="w-12 h-12 rounded-lg bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center">
-          <Music size={20} className="text-zinc-400" />
-        </div>
-        <div className="flex-1">
-          <p className="text-zinc-500 dark:text-zinc-400 text-sm font-medium">Couldn't load top tracks</p>
-          <p className="text-zinc-400 dark:text-zinc-500 text-xs">Check back later!</p>
-        </div>
-      </div>
-    );
-  }
+  const { nowPlaying, tracks, tracksRangeLabel, error } = spotifyData
 
-  return (
-    <div className="space-y-3">
-      {tracks.map((track, i) => (
-        <a
-          key={i}
-          href={track.songUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-4 p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 hover:border-green-500 dark:hover:border-green-500 transition-all group"
-        >
-          <span className="text-sm font-mono font-bold text-zinc-400 dark:text-zinc-500 w-5 text-center group-hover:text-green-500 transition-colors">
-            {i + 1}
-          </span>
-          <img
-            src={track.albumImageUrl}
-            alt={track.album}
-            className="w-12 h-12 rounded-lg shadow-md flex-shrink-0"
-          />
-          <div className="flex-1 min-w-0">
-            <p className="text-zinc-900 dark:text-white font-medium truncate group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
-              {track.title}
-            </p>
-            <p className="text-zinc-500 dark:text-zinc-400 text-sm truncate">{track.artist}</p>
-          </div>
-          <ExternalLink size={16} className="text-zinc-400 group-hover:text-green-500 transition-colors flex-shrink-0" />
-        </a>
-      ))}
-    </div>
-  );
-}
-
-// Spotify Section
-function SpotifySection() {
   return (
     <section id="spotify" className="py-4 px-6">
       <div className="max-w-4xl mx-auto">
         <div className="card-hover bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-lg p-6 md:p-8 mb-8">
-          <CommandHeader command="spotify --top-tracks" />
+          <CommandHeader command="spotify --status" />
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">
               <Music size={24} />
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white">
-              My Top Songs
+              Spotify
             </h2>
           </div>
 
-          <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400 mb-3 uppercase tracking-wider">Last 4 Weeks</p>
-          <TopTracks />
+          <div className="mb-6">
+            <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400 mb-3 uppercase tracking-wider">Now Playing</p>
+            {loading ? (
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
+                <div className="w-16 h-16 rounded-lg bg-zinc-200 dark:bg-zinc-700 animate-pulse flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <div className="h-4 w-36 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse mb-2" />
+                  <div className="h-3 w-24 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse mb-2" />
+                  <div className="h-3 w-20 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse" />
+                </div>
+              </div>
+            ) : nowPlaying?.isPlaying ? (
+              <a
+                href={nowPlaying.songUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 hover:border-green-500 dark:hover:border-green-500 transition-all group"
+              >
+                <div className="relative flex-shrink-0">
+                  <img
+                    src={nowPlaying.albumImageUrl}
+                    alt={nowPlaying.album}
+                    className="w-16 h-16 rounded-lg shadow-md"
+                  />
+                  <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center shadow-md">
+                    <span className="text-white text-[10px]">▶</span>
+                  </div>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-zinc-900 dark:text-white font-medium truncate group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                    {nowPlaying.title}
+                  </p>
+                  <p className="text-zinc-500 dark:text-zinc-400 text-sm truncate">{nowPlaying.artist}</p>
+                  <p className="text-zinc-400 dark:text-zinc-500 text-xs truncate">{nowPlaying.album}</p>
+                </div>
+                <ExternalLink size={16} className="text-zinc-400 group-hover:text-green-500 transition-colors flex-shrink-0" />
+              </a>
+            ) : (
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
+                <div className="w-16 h-16 rounded-lg bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center flex-shrink-0">
+                  <Music size={24} className="text-zinc-400" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-zinc-500 dark:text-zinc-400 text-sm font-medium">Nothing playing right now</p>
+                  <p className="text-zinc-400 dark:text-zinc-500 text-xs">Start a song in Spotify and this card will update automatically.</p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between gap-3 mb-3">
+              <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
+                Top Songs
+              </p>
+              <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                {tracksRangeLabel}
+              </p>
+            </div>
+
+            {loading ? (
+              <div className="space-y-3">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="flex items-center gap-4 p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
+                    <span className="text-sm font-mono text-zinc-300 dark:text-zinc-600 w-5 text-center">{i + 1}</span>
+                    <div className="w-12 h-12 rounded-lg bg-zinc-200 dark:bg-zinc-700 animate-pulse flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <div className="h-4 w-36 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse mb-2" />
+                      <div className="h-3 w-24 bg-zinc-200 dark:bg-zinc-700 rounded animate-pulse" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : error ? (
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-red-200 dark:border-red-900/50">
+                <div className="w-12 h-12 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+                  <Music size={20} className="text-red-500" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-zinc-700 dark:text-zinc-200 text-sm font-medium">Spotify data could not be loaded</p>
+                  <p className="text-zinc-500 dark:text-zinc-400 text-xs break-words">{error}</p>
+                </div>
+              </div>
+            ) : tracks.length === 0 ? (
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
+                <div className="w-12 h-12 rounded-lg bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center">
+                  <Music size={20} className="text-zinc-400" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-zinc-500 dark:text-zinc-400 text-sm font-medium">No top songs found</p>
+                  <p className="text-zinc-400 dark:text-zinc-500 text-xs">Check your Spotify account permissions or try again later.</p>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {tracks.map((track, i) => (
+                  <a
+                    key={track.songUrl}
+                    href={track.songUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-4 p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 hover:border-green-500 dark:hover:border-green-500 transition-all group"
+                  >
+                    <span className="text-sm font-mono font-bold text-zinc-400 dark:text-zinc-500 w-5 text-center group-hover:text-green-500 transition-colors">
+                      {i + 1}
+                    </span>
+                    <img
+                      src={track.albumImageUrl}
+                      alt={track.album}
+                      className="w-12 h-12 rounded-lg shadow-md flex-shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-zinc-900 dark:text-white font-medium truncate group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                        {track.title}
+                      </p>
+                      <p className="text-zinc-500 dark:text-zinc-400 text-sm truncate">{track.artist}</p>
+                    </div>
+                    <ExternalLink size={16} className="text-zinc-400 group-hover:text-green-500 transition-colors flex-shrink-0" />
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </section>

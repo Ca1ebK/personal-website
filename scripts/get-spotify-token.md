@@ -80,10 +80,20 @@ Save the file as `get-token.mjs` and run: `node get-token.mjs`
 
 4. Redeploy your site
 
+## Step 5: Verify Local and Vercel Setup
+
+- In Vercel, add the environment variables and redeploy after saving them.
+- For local testing, use `vercel dev` instead of `npm run dev` so the `/api/spotify` route is available locally.
+- If you regenerate your refresh token, make sure the authorization URL still includes:
+  - `user-read-currently-playing`
+  - `user-read-playback-state`
+  - `user-top-read`
+
 ## Done!
 
-Your Now Playing widget should now work. It will show:
-- The current track if you're playing something
-- "Not playing" if Spotify is paused
+Your Spotify section should now show:
+- A `Now Playing` card when something is actively playing
+- A `Top Songs` list based on your last 6 months of listening
+- A clearer error message if env vars or Spotify auth are misconfigured
 
-The widget updates every 30 seconds automatically.
+The section updates automatically every 30 seconds.
