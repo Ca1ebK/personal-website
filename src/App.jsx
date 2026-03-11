@@ -262,13 +262,19 @@ function Hero() {
                     <MapPin size={16} />
                     <span>Greater Chicago Area</span>
                     <span className="text-zinc-300 dark:text-zinc-600">•</span>
-                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-medium">
-                      <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
-                      Incoming @ Northrop Grumman
+                    <span className="relative group/amazon inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950 text-zinc-700 dark:text-zinc-300 text-xs font-medium border border-amber-200 dark:border-amber-800 cursor-default">
+                      Incoming @
+                      <img src="/amazon-icon-logo-png_seeklogo-405254.png" alt="Amazon" className="h-3.5 w-auto" />
+                      <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2.5 py-1 rounded-md bg-zinc-800 dark:bg-zinc-200 text-white dark:text-zinc-800 text-xs font-medium whitespace-nowrap opacity-0 scale-95 group-hover/amazon:opacity-100 group-hover/amazon:scale-100 transition-all duration-200 pointer-events-none">
+                        Amazon
+                      </span>
                     </span>
-                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 text-xs font-medium">
-                      <span className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse" />
-                      ex-Fermilab
+                    <span className="relative group/fermilab inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950 text-zinc-700 dark:text-zinc-300 text-xs font-medium border border-blue-200 dark:border-blue-800 cursor-default">
+                      Previous @
+                      <img src="/Fermilab logo.png" alt="Fermilab" className="h-3.5 w-auto" />
+                      <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2.5 py-1 rounded-md bg-zinc-800 dark:bg-zinc-200 text-white dark:text-zinc-800 text-xs font-medium whitespace-nowrap opacity-0 scale-95 group-hover/fermilab:opacity-100 group-hover/fermilab:scale-100 transition-all duration-200 pointer-events-none">
+                        Fermilab
+                      </span>
                     </span>
                   </p>
                 </div>
@@ -422,13 +428,13 @@ function ExperienceItem({ id, title, company, location, date, bullets, isRemote,
 function Experience() {
   const experiences = [
     {
-      id: 'exp-northrop',
-      title: 'Incoming Software Engineer Intern',
-      company: 'Northrop Grumman Corporation',
-      location: 'Rolling Meadows, IL',
+      id: 'exp-amazon',
+      title: 'Incoming Software Development Engineer Intern',
+      company: 'Amazon',
+      location: 'Bellevue, WA',
       date: 'Summer 2026',
       bullets: [
-        'Mission Systems Sector, Targeting & Survivability (T&S) Division',
+        'FinTech',
       ],
     },
     {
