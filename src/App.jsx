@@ -282,8 +282,7 @@ function Hero() {
             </div>
 
             <p className="text-zinc-600 dark:text-zinc-400 mb-8 leading-relaxed">
-              Building things at the intersection of <span className="text-zinc-800 dark:text-zinc-200 font-medium">scalable systems</span>, <span className="text-zinc-800 dark:text-zinc-200 font-medium">AI/ML</span>, and <span className="text-zinc-800 dark:text-zinc-200 font-medium">robotics</span>.
-              Passionate about using software and AI to solve tangible problems.
+              Building at the intersection of <span className="text-zinc-800 dark:text-zinc-200 font-medium">scalable and distributed systems</span>, <span className="text-zinc-800 dark:text-zinc-200 font-medium">AI/ML</span>, and <span className="text-zinc-800 dark:text-zinc-200 font-medium">high performance computing</span>.
             </p>
 
             {/* Social links as terminal output */}
@@ -319,38 +318,38 @@ function useScrollProgress() {
   const ref = useRef(null)
 
   useEffect(() => {
+    let ticking = false
+
     const handleScroll = () => {
-      if (!ref.current) return
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        ticking = false
+        if (!ref.current) return
 
-      const rect = ref.current.getBoundingClientRect()
-      const elementHeight = rect.height
+        const rect = ref.current.getBoundingClientRect()
+        const elementHeight = rect.height
+        const viewportHeight = window.innerHeight
 
-      // Start point: trigger much earlier - when element is still well below viewport
-      // Trigger when element top is 500px below viewport top (very early trigger)
-      const earlyTriggerOffset = 700
-      const triggerPoint = earlyTriggerOffset
+        const triggerPoint = viewportHeight * 0.55
+        const elementTop = rect.top
 
-      // Get element position
-      const elementTop = rect.top
+        if (elementTop > triggerPoint) {
+          setProgress(0)
+          return
+        }
 
-      // Start animating when element top reaches trigger point (still below viewport)
-      if (elementTop > triggerPoint) {
-        setProgress(0)
-        return
-      }
+        const effectiveHeight = elementHeight * 0.65
+        const distanceScrolled = triggerPoint - elementTop
+        const newProgress = Math.min(100, Math.max(0, (distanceScrolled / effectiveHeight) * 100))
 
-      // Calculate progress: how much of element has scrolled past trigger point
-      // Use a much smaller effective height to make items appear very quickly
-      const effectiveHeight = elementHeight * 0.15 // Very small multiplier for fast appearance
-      const distanceScrolled = triggerPoint - elementTop
-      const newProgress = Math.min(100, Math.max(0, (distanceScrolled / effectiveHeight) * 100))
-
-      setProgress(newProgress)
-      if (newProgress >= 100) setIsComplete(true)
+        setProgress(newProgress)
+        if (newProgress >= 100) setIsComplete(true)
+      })
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll() // Initial check
+    handleScroll()
 
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -361,7 +360,9 @@ function useScrollProgress() {
 // Experience Item with scroll-fill animation
 function ExperienceItem({ id, title, company, location, date, bullets, isRemote, isLast }) {
   const [ref, progress, isComplete] = useScrollProgress()
-  const isActive = progress > 5 // Lower threshold so items activate sooner
+  const hasBeenActive = useRef(false)
+  if (progress > 12) hasBeenActive.current = true
+  const isActive = hasBeenActive.current
 
   return (
     <div
@@ -374,7 +375,7 @@ function ExperienceItem({ id, title, company, location, date, bullets, isRemote,
 
       {/* Filling timeline (orange) - grows based on scroll progress */}
       <div
-        className="absolute left-0 top-0 w-0.5 bg-orange-500 transition-all duration-100 ease-out"
+        className="absolute left-0 top-0 w-0.5 bg-orange-500 transition-all duration-700 ease-out"
         style={{
           height: isLast ? `${Math.min(progress, 100)}%` : `${progress}%`,
           boxShadow: progress > 0 ? '0 0 8px rgba(249, 115, 22, 0.5)' : 'none'
@@ -605,7 +606,7 @@ function Skills() {
   return (
     <section id="skills" className="py-4 px-6">
       <div className="max-w-4xl mx-auto">
-        <div className="card-hover bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-lg p-6 md:p-8 mb-8">
+        <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-lg p-6 md:p-8 mb-8">
           <CommandHeader command="echo $SKILLS" />
           <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-8">
             Skills
