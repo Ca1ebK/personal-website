@@ -1,0 +1,9 @@
+{
+  "deploymentProtection": {
+    "standard": {
+      "all": "standard_protection",
+      "bypassForAutomation": true
+    }
+  },
+  "bypassProtectionForApi": true
+}
