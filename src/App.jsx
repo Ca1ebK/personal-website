@@ -363,6 +363,7 @@ function ExperienceItem({ id, title, company, location, date, bullets, isRemote,
   const hasBeenActive = useRef(false)
   if (progress > 12) hasBeenActive.current = true
   const isActive = hasBeenActive.current
+  const isDotActive = progress > 12
 
   return (
     <div
@@ -383,11 +384,11 @@ function ExperienceItem({ id, title, company, location, date, bullets, isRemote,
       />
 
       {/* Animated dot */}
-      <div className={`absolute -left-[7px] top-0 w-4 h-4 rounded-full border-2 transition-all duration-300 z-10 ${isActive
+      <div className={`absolute -left-[7px] top-0 w-4 h-4 rounded-full border-2 transition-all duration-300 z-10 ${isDotActive
         ? 'bg-orange-500 border-orange-400 dark:border-orange-400 shadow-lg shadow-orange-500/50 scale-110'
         : 'bg-zinc-100 dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700'
         }`}>
-        {isActive && !isComplete && (
+        {isDotActive && !isComplete && (
           <span className="absolute inset-0 rounded-full bg-orange-500 animate-ping opacity-75" />
         )}
       </div>
