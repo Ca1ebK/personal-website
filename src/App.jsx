@@ -263,14 +263,14 @@ function Hero() {
                     <span>Greater Chicago Area</span>
                     <span className="text-zinc-300 dark:text-zinc-600">•</span>
                     <span className="relative group/amazon inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950 text-zinc-700 dark:text-zinc-300 text-xs font-medium border border-amber-200 dark:border-amber-800 cursor-default">
-                      Incoming @
+                      Previously @
                       <img src="/amazon-icon-logo-png_seeklogo-405254.png" alt="Amazon" className="h-3.5 w-auto" />
                       <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2.5 py-1 rounded-md bg-zinc-800 dark:bg-zinc-200 text-white dark:text-zinc-800 text-xs font-medium whitespace-nowrap opacity-0 scale-95 group-hover/amazon:opacity-100 group-hover/amazon:scale-100 transition-all duration-200 pointer-events-none">
                         Amazon
                       </span>
                     </span>
                     <span className="relative group/fermilab inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950 text-zinc-700 dark:text-zinc-300 text-xs font-medium border border-blue-200 dark:border-blue-800 cursor-default">
-                      Previous @
+                      Previously @
                       <img src="/Fermilab logo.png" alt="Fermilab" className="h-3.5 w-auto" />
                       <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2.5 py-1 rounded-md bg-zinc-800 dark:bg-zinc-200 text-white dark:text-zinc-800 text-xs font-medium whitespace-nowrap opacity-0 scale-95 group-hover/fermilab:opacity-100 group-hover/fermilab:scale-100 transition-all duration-200 pointer-events-none">
                         Fermilab
@@ -282,7 +282,7 @@ function Hero() {
             </div>
 
             <p className="text-zinc-600 dark:text-zinc-400 mb-8 leading-relaxed">
-              Building at the intersection of <span className="text-zinc-800 dark:text-zinc-200 font-medium">scalable and distributed systems</span>, <span className="text-zinc-800 dark:text-zinc-200 font-medium">AI/ML</span>, and <span className="text-zinc-800 dark:text-zinc-200 font-medium">high performance computing</span>.
+              Interested in <span className="text-zinc-800 dark:text-zinc-200 font-medium">product engineering</span>, <span className="text-zinc-800 dark:text-zinc-200 font-medium">product design</span>, <span className="text-zinc-800 dark:text-zinc-200 font-medium">UI/UX</span>, and <span className="text-zinc-800 dark:text-zinc-200 font-medium">systems</span>.
             </p>
 
             {/* Social links as terminal output */}
@@ -431,12 +431,15 @@ function Experience() {
   const experiences = [
     {
       id: 'exp-amazon',
-      title: 'Incoming Software Development Engineer Intern',
+      title: 'Software Development Engineer Intern',
       company: 'Amazon',
       location: 'Bellevue, WA',
-      date: 'Summer 2026',
+      date: 'May 2026 – Aug 2026 · 3 mos',
       bullets: [
-        'FinTech',
+        "Built an LLM-powered financial observability agent for Teller, Amazon's Accounts Payable system ($2.5B+ processed), translating natural-language questions to SQL over 130M+ payment records (Python, Strands Agents SDK, Claude on Bedrock)",
+        'Automated anomaly detection with z-score baselines and a 20+ tool-call agentic investigation loop, delivering cited, confidence-rated explanations in 2-3 minutes; surfaced a 63,469-payment void batch (z-score 62) in production',
+        'Deployed the containerized agent on Bedrock AgentCore Runtime with AWS CDK and a CI/CD pipeline; engineered least-privilege cross-account IAM access to SOX-regulated data via Athena, Glue, Lake Formation, and S3',
+        'Hardened the tool layer with a read-only SQL validator, table allowlist, Bedrock guardrails, and anti-hallucination checks; shipped 100+ unit and integration tests',
       ],
     },
     {
